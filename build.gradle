@@ -6,7 +6,10 @@ plugins {
 ext {
     // The drivers we want to use
     //drivers = ["firefox", "chrome", "chromeHeadless"]
-    drivers = ["firefox", "sauce"]
+    //drivers = ["chromeHeadless"]
+   // drivers = ["safari"]
+    drivers = ["firefox"]
+    //drivers = ["firefox", "sauce"]
 
     ext {
         gebVersion = '3.0.1'
@@ -47,7 +50,7 @@ dependencies {
     compile "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion"
     compile "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
     compile "org.seleniumhq.selenium:selenium-safari-driver:$seleniumVersion"
-    
+
     // Souce labs
     testCompile "com.saucelabs.selenium:sauce-ondemand-driver:$sauceOndemandDriverVersion"
     testCompile "com.saucelabs.selenium:selenium-client-factory:$seleniumClientFactoryVersion"
@@ -73,6 +76,7 @@ drivers.each { driver ->
 
         systemProperty "sauce.username", sauce.username
         systemProperty "sauce.key", sauce.key
+        systemProperty "driverType", "${driver}"
     }
 }
 

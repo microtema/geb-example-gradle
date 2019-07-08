@@ -1,8 +1,9 @@
 package ite.contact
 
-import geb.spock.GebReportingSpec
 
-class ContactPageTest extends GebReportingSpec {
+import ite.BasePageGebSpec
+
+class ContactPageTest extends BasePageGebSpec {
 
     def "Navigate to contact us page"() {
 

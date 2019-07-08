@@ -1,9 +1,10 @@
 package ite.references
 
-import geb.spock.GebReportingSpec
+
+import ite.BasePageGebSpec
 import spock.lang.Issue
 
-class ReferencesPageTest extends GebReportingSpec {
+class ReferencesPageTest extends BasePageGebSpec {
 
     @Issue("http://jira.ag.com/AGT-102")
     def "Navigate to references page"() {
