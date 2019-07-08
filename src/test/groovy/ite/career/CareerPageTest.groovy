@@ -17,6 +17,7 @@ class CareerPageTest extends GebReportingSpec {
     }
 
     def cleanup(){
+
         browser.quit()
     }
 }
