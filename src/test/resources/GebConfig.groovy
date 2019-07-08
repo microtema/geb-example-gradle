@@ -1,6 +1,6 @@
 /*
 	This is the Geb configuration file.
-	
+
 	See: http://www.gebish.org/manual/current/#configuration
 */
 
@@ -8,39 +8,52 @@
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.firefox.FirefoxDriver
+import org.openqa.selenium.safari.SafariDriver
+
+driver = {
+
+}
+
+atCheckWaiting = true
+cacheDriver = false
+autoClearCookies = false
 
 waiting {
-	timeout = 2
+    timeout = 2
 }
 
 environments {
-	
-	// run via “./gradlew chromeTest”
-	// See: http://code.google.com/p/selenium/wiki/ChromeDriver
-	chrome {
-		driver = { new ChromeDriver() }
-	}
 
-	// run via “./gradlew chromeHeadlessTest”
-	// See: http://code.google.com/p/selenium/wiki/ChromeDriver
-	chromeHeadless {
-		driver = {
-			ChromeOptions o = new ChromeOptions()
-			o.addArguments('headless')
-			new ChromeDriver(o)
-		}
-	}
-	
-	// run via “./gradlew firefoxTest”
-	// See: http://code.google.com/p/selenium/wiki/FirefoxDriver
-	firefox {
-		atCheckWaiting = 1
+    // run via “./gradlew chromeTest”
+    // See: http://code.google.com/p/selenium/wiki/ChromeDriver
+    chrome {
+        driver = { new ChromeDriver() }
+    }
 
-		driver = { new FirefoxDriver() }
-	}
+    // run via “./gradlew chromeHeadlessTest”
+    // See: http://code.google.com/p/selenium/wiki/ChromeDriver
+    chromeHeadless {
+        driver = {
+            ChromeOptions o = new ChromeOptions()
+            o.addArguments('headless')
+            new ChromeDriver(o)
+        }
+    }
+
+    // run via “./gradlew firefoxTest”
+    // See: http://code.google.com/p/selenium/wiki/FirefoxDriver
+    firefox {
+        atCheckWaiting = 1
+
+        driver = { new FirefoxDriver() }
+    }
+
+    safari {
+
+        driver = { new SafariDriver() }
+    }
 
 }
 
 // To run the tests with all browsers just run “./gradlew test”
-
-baseUrl = "http://gebish.org"
+baseUrl = "https://www.it-economics.com"

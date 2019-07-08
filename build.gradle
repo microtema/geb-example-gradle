@@ -1,21 +1,33 @@
 plugins {
-    id "idea"
     id "groovy"
     id "com.energizedwork.webdriver-binaries" version "1.4"
-    id "com.energizedwork.idea-base" version "1.4"
 }
 
 ext {
     // The drivers we want to use
-    drivers = ["firefox", "chrome", "chromeHeadless"]
+    //drivers = ["firefox", "chrome", "chromeHeadless"]
+    drivers = ["firefox", "sauce"]
 
     ext {
         gebVersion = '3.0.1'
         seleniumVersion = '3.14.0'
         chromeDriverVersion = '73.0.3683.68'
         geckoDriverVersion = '0.24.0'
+
+        ciSauceVersion = '1.116'
+        sauceJavaCommonVersion = '2.1.21'
+        sauceJunitVersion = '2.1.21'
+        saucerestVersion = '1.0.33'
+        sauceOndemandDriverVersion = '1.2'
+        seleniumClientFactoryVersion = '1.2'
+        seleniumRemoteDriver = '2.53.1'
     }
 }
+
+def sauce = [
+        username: "$System.env.SAUCE_USERNAME",
+        key     : "$System.env.SAUCE_ACCESS_KEY"
+]
 
 repositories {
     mavenCentral()
@@ -23,17 +35,26 @@ repositories {
 
 dependencies {
     // If using Spock, need to depend on geb-spock
-    testCompile "org.gebish:geb-spock:$gebVersion"
-    testCompile("org.spockframework:spock-core:1.3-groovy-2.5") {
+    compile "org.gebish:geb-spock:$gebVersion"
+    compile("org.spockframework:spock-core:1.3-groovy-2.5") {
         exclude group: "org.codehaus.groovy"
     }
 
     // If using JUnit, need to depend on geb-junit (3 or 4)
-    testCompile "org.gebish:geb-junit4:$gebVersion"
+    compile "org.gebish:geb-junit4:$gebVersion"
 
     // Drivers
-    testCompile "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion"
-    testCompile "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
+    compile "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion"
+    compile "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
+    compile "org.seleniumhq.selenium:selenium-safari-driver:$seleniumVersion"
+    
+    // Souce labs
+    testCompile "com.saucelabs.selenium:sauce-ondemand-driver:$sauceOndemandDriverVersion"
+    testCompile "com.saucelabs.selenium:selenium-client-factory:$seleniumClientFactoryVersion"
+    testCompile "com.saucelabs:ci-sauce:$ciSauceVersion"
+    testCompile "com.saucelabs:sauce_java_common:$sauceJavaCommonVersion"
+    testCompile "com.saucelabs:sauce_junit:$sauceJunitVersion"
+    testCompile "com.saucelabs:saucerest:$saucerestVersion"
 }
 
 webdriverBinaries {
@@ -49,6 +70,9 @@ drivers.each { driver ->
 
         systemProperty "geb.build.reportsDir", reporting.file("geb/$name")
         systemProperty "geb.env", driver
+
+        systemProperty "sauce.username", sauce.username
+        systemProperty "sauce.key", sauce.key
     }
 }
 
