@@ -1,8 +1,8 @@
 package ite.services
 
-import geb.spock.GebSpec
+import geb.spock.GebReportingSpec
 
-class ServicesPageTest extends GebSpec {
+class ServicesPageTest extends GebReportingSpec {
 
     def "Navigate to service page"() {
 

@@ -1,6 +1,6 @@
 package ite.home
 
-import geb.spock.GebSpec
+import geb.spock.GebReportingSpec
 import ite.career.CareerPage
 import ite.company.CompanyPage
 import ite.contact.ContactUsPage
@@ -8,7 +8,7 @@ import ite.references.ReferencesPage
 import ite.search.SearchPage
 import ite.services.ServicesPage
 
-class HomePageSpec extends GebSpec {
+class HomePageSpec extends GebReportingSpec {
 
     def "Navigate to company page"() {
 

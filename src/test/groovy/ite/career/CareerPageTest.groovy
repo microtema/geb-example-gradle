@@ -1,8 +1,8 @@
 package ite.career
 
-import geb.spock.GebSpec
+import geb.spock.GebReportingSpec
 
-class CareerPageTest extends GebSpec {
+class CareerPageTest extends GebReportingSpec {
 
     def "Navigate to company page"() {
 
