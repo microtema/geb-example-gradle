@@ -1,6 +1,5 @@
 package ite.contact
 
-
 import ite.BasePageGebSpec
 
 class ContactPageTest extends BasePageGebSpec {
@@ -8,16 +7,12 @@ class ContactPageTest extends BasePageGebSpec {
     def "Navigate to contact us page"() {
 
         when: "You are on contact us page"
-        ContactUsPage page = to ContactUsPage
+        def page = to ContactUsPage
 
         and: "contact us"
         page.contactUs()
 
         then: "Check you see the pen career with us content"
         at ContactUsPage
-    }
-
-    def cleanup(){
-        browser.quit()
     }
 }

@@ -8,8 +8,8 @@ ext {
     //drivers = ["firefox", "chrome", "chromeHeadless"]
     //drivers = ["chromeHeadless"]
    // drivers = ["safari"]
-    drivers = ["firefox"]
-    //drivers = ["firefox", "sauce"]
+   // drivers = ["firefox"]
+    drivers = ["firefox", "sauce"]
 
     ext {
         gebVersion = '3.0.1'
@@ -76,7 +76,6 @@ drivers.each { driver ->
 
         systemProperty "sauce.username", sauce.username
         systemProperty "sauce.key", sauce.key
-        systemProperty "driverType", "${driver}"
     }
 }
 

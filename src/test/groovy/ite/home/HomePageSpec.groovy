@@ -1,6 +1,5 @@
 package ite.home
 
-
 import ite.BasePageGebSpec
 import ite.career.CareerPage
 import ite.company.CompanyPage
@@ -14,7 +13,7 @@ class HomePageSpec extends BasePageGebSpec {
     def "Navigate to company page"() {
 
         when: "You are on home page"
-        HomePage page = to HomePage
+        def page = to HomePage
 
         and: "Open Company"
         page.mainNavigation.openCompany()
@@ -26,7 +25,7 @@ class HomePageSpec extends BasePageGebSpec {
     def "Navigate to services page"() {
 
         when: "You are on home page"
-        HomePage page = to HomePage
+        def page = to HomePage
 
         and: "Open Services"
         page.mainNavigation.openServices()
@@ -38,7 +37,7 @@ class HomePageSpec extends BasePageGebSpec {
     def "Navigate to references page"() {
 
         when: "You are on home page"
-        HomePage page = to HomePage
+        def page = to HomePage
 
         and: "Open References"
         page.mainNavigation.openReferences()
@@ -50,7 +49,7 @@ class HomePageSpec extends BasePageGebSpec {
     def "Navigate to career page"() {
 
         when: "You are on home page"
-        HomePage page = to HomePage
+        def page = to HomePage
 
         and: "Open Career"
         page.mainNavigation.openCareer()
@@ -62,7 +61,7 @@ class HomePageSpec extends BasePageGebSpec {
     def "Navigate to contact us page"() {
 
         when: "You are on home page"
-        HomePage page = to HomePage
+        def page = to HomePage
 
         and: "Open contact us"
         page.mainNavigation.openContactUs()
@@ -74,16 +73,12 @@ class HomePageSpec extends BasePageGebSpec {
     def "Navigate to search page"() {
 
         when: "You are on home page"
-        HomePage page = to HomePage
+        def page = to HomePage
 
         and: "Open search"
         page.mainNavigation.openSearch()
 
         then: "Check you see the search page"
         at SearchPage
-    }
-
-    def cleanup(){
-        browser.quit()
     }
 }

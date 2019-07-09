@@ -6,7 +6,6 @@ import com.saucelabs.saucerest.SauceREST
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
-
 class SpecialSauceOnDemandTestWatcher extends TestWatcher {
 
     private String watchedLog = ""
@@ -15,17 +14,17 @@ class SpecialSauceOnDemandTestWatcher extends TestWatcher {
      * The underlying {@link com.saucelabs.common.SauceOnDemandSessionIdProvider} instance which contains the Selenium session id.  This is typically
      * the unit test being executed.
      */
-    private SauceOnDemandSessionIdProvider sessionIdProvider
+    private final SauceOnDemandSessionIdProvider sessionIdProvider
 
     /**
      * The instance of the Sauce OnDemand Java REST API client.
      */
-    private SauceREST sauceREST
+    private final SauceREST sauceREST
 
     /**
      * Boolean indicating whether to print the log messages to the stdout.
      */
-    private boolean verboseMode
+    private final boolean verboseMode
 
 
     SpecialSauceOnDemandTestWatcher(SauceOnDemandSessionIdProvider sessionIdProvider, String username, String accessKey, boolean verboseMode) {
@@ -47,46 +46,45 @@ class SpecialSauceOnDemandTestWatcher extends TestWatcher {
      */
 
     protected void failed(Throwable e, Description description) {
+
         this.watchedLog += description.getMethodName()
-        if (sessionIdProvider != null && sessionIdProvider.getSessionId() != null) {
+
+        if (sessionIdProvider?.getSessionId()) {
+
             printSessionId(description)
             updateTestStatus()
+
             if (verboseMode) {
                 // get, and print to StdOut, the link to the job
                 String authLink = sauceREST.getPublicJobLink(sessionIdProvider.getSessionId())
                 System.out.println("Job link: " + authLink)
             }
-        } else {
-            if (verboseMode) {
-                System.out.println("Test succeeded and Session ID doesn't exist!!")
-            }
+        } else if (verboseMode) {
+            System.out.println("Test succeeded and Session ID doesn't exist!!")
         }
     }
 
     protected void succeeded(Description description) {
-        if (sessionIdProvider.getSessionId() != null) {
+
+        if (sessionIdProvider.getSessionId()) {
             System.out.println("A test succeeded " + description.getMethodName())
             updateTestStatus()
-        } else {
-            if (verboseMode) {
-                System.out.println("Test Failed and Session ID doesn't exist!!")
-            }
+        } else if (verboseMode) {
+            System.out.println("Test Failed and Session ID doesn't exist!!")
         }
     }
 
     boolean areTestsSuccessful() {
-        boolean pass = true
-        if (this.watchedLog != null && !this.watchedLog.equals("")) {
-            pass = false
-        }
-        return pass
+
+        return !watchedLog
     }
 
     void updateTestStatus() {
-        Map<String, Object> updates = new HashMap<>()
-        updates.put("passed", areTestsSuccessful())
-        Utils.addBuildNumberToUpdate(updates)
-        this.sauceREST.updateJobInfo(this.sessionIdProvider.getSessionId(), updates)
-    }
 
+        Map<String, Object> updates = ["passed": areTestsSuccessful()]
+
+        Utils.addBuildNumberToUpdate(updates)
+
+        sauceREST.updateJobInfo(sessionIdProvider.getSessionId(), updates)
+    }
 }
