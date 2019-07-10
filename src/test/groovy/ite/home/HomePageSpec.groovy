@@ -1,14 +1,20 @@
 package ite.home
 
-import ite.BasePageGebSpec
+import geb.spock.GebReportingSpec
 import ite.career.CareerPage
 import ite.company.CompanyPage
 import ite.contact.ContactUsPage
 import ite.references.ReferencesPage
 import ite.search.SearchPage
 import ite.services.ServicesPage
+import spock.lang.Stepwise
 
-class HomePageSpec extends BasePageGebSpec {
+
+/**
+ * NOTE: Run spec's feature methods sequentially
+ */
+@Stepwise
+class HomePageSpec extends GebReportingSpec {
 
     def "Navigate to company page"() {
 
@@ -81,4 +87,6 @@ class HomePageSpec extends BasePageGebSpec {
         then: "Check you see the search page"
         at SearchPage
     }
+
+    def cleanupSpec() { driver.quit() }
 }

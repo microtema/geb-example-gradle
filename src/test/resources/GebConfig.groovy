@@ -63,18 +63,35 @@ environments {
         driver = { new FirefoxDriver() }
     }
 
-    souceLabs {
+    firefoxGrid {
 
-        def username = Optional.ofNullable(System.getenv("SAUCE_USERNAME")).orElse("mtema")
-        def accessKey = Optional.ofNullable(System.getenv("SAUCE_ACCESS_KEY")).orElse("5991966c-a0d9-4a2d-8411-50e9d9c015f7")
-        def remoteUrl = "https://${username}:${accessKey}@ondemand.eu-central-1.saucelabs.com:443/wd/hub"
+        driver = {
+
+            def remoteUrl = System.getProperty("SELENIUM_GRID_HOST")
+
+            new RemoteWebDriver(new URL(remoteUrl), DesiredCapabilities.firefox())
+        }
+    }
+
+    chromeGrid {
+
+        driver = {
+
+            def remoteUrl = System.getProperty("SELENIUM_GRID_HOST")
+
+            new RemoteWebDriver(new URL(remoteUrl), DesiredCapabilities.chrome())
+        }
+    }
+
+    firefoxSouceLabs {
+
+        def remoteUrl = System.getProperty("SOUCE_LABS_HOST")
 
         def map = ["browserName": "Firefox", "platform": "Windows 10", "version": "42"]
         def capabilities = new DesiredCapabilities(map)
 
         capabilities.setCapability("newCommandTimeout", 180)
         capabilities.setCapability("extendedDebugging", true)
-
 
         driver = {
             new RemoteWebDriver(new URL(remoteUrl), capabilities)

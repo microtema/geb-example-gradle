@@ -11,7 +11,9 @@ class CompanyPage extends Page {
     }
 
     static content = {
-        units { $("div.col-units-5") }
+        units {
+            $("div.col-units-5")
+        }
     }
 
     void openPhilosophy() {

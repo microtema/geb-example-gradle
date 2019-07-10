@@ -3,13 +3,13 @@ plugins {
     id "groovy"
     id "com.energizedwork.webdriver-binaries" version "1.4"
     id "com.energizedwork.idea-base" version "1.4"
+    id "com.avast.gradle.docker-compose" version "0.9.4"
 }
 
 ext {
     // The drivers we want to use
-    // drivers = ["firefox", "chrome", "chromeHeadless", "safari"]
-    // drivers = ["souceLabs"]
-    drivers = ["firefoxHeadless", "firefox", "safari"]
+    // drivers = ["firefoxHeadless", "firefox", "safari", "chromeGrid", "firefoxGrid", "firefoxSouceLabs"]
+    drivers = ["firefox"]
 
     ext {
         gebVersion = '3.0.1'
@@ -26,6 +26,7 @@ ext {
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -39,6 +40,9 @@ dependencies {
     compile "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion"
     compile "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
     compile "org.seleniumhq.selenium:selenium-safari-driver:$seleniumVersion"
+    // slf4j is required by spock-reports
+    testCompile 'org.slf4j:slf4j-log4j12:1.7.26'
+    testCompile 'com.athaydes:spock-reports:1.3.2', { transitive = false }
 }
 
 webdriverBinaries {
@@ -56,12 +60,37 @@ drivers.each { driver ->
 
         systemProperty "geb.build.reportsDir", reporting.file("geb/$name")
         systemProperty "geb.env", driver
+
+        if (driver.endsWith("Grid")) {
+
+            systemProperty "SELENIUM_GRID_HOST", System.getenv("SELENIUM_GRID_HOST") ?: "http://localhost:4444/wd/hub"
+        } else if (driver.endsWith("SouceLabs")) {
+
+            def username = "mtema"
+            def accessKey = "5991966c-a0d9-4a2d-8411-50e9d9c015f7"
+            def defaultHost = "https://${username}:${accessKey}@ondemand.eu-central-1.saucelabs.com:443/wd/hub"
+
+            systemProperty "SOUCE_LABS_HOST", System.getenv("SOUCE_LABS_HOST") ?: defaultHost
+        }
     }
 }
 
 test {
 
-    dependsOn drivers.collect { tasks["${it}Test"] }
+    systemProperty 'com.athaydes.spockframework.report.showCodeBlocks', true
+
+    dependsOn drivers.collect {
+
+        def task = tasks["${it}Test"]
+
+        // up/down docker on selenium grid
+        if (it.endsWith("Grid")) {
+
+            dockerCompose.isRequiredBy(task)
+        }
+
+        task
+    }
 
     enabled = false
 }

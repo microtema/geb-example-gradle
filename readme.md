@@ -1,10 +1,8 @@
 # Example Geb and Gradle Project
 
-[![Build Status][build_status]](https://circleci.com/gh/geb/geb-example-gradle/tree/master)
-
 ## Description
 
-This is an example of incorporating Geb into a Gradle build. It shows the use of Spock and JUnit 4 tests.
+This is an example of incorporating Geb into a Gradle build. It shows the use of Spock, Souce-Labs and Selenium Grid.
 
 The build is setup to work with Firefox and Chrome. Have a look at the `build.gradle` and the `src/test/resources/GebConfig.groovy` files.
 
@@ -14,6 +12,9 @@ The following commands will launch the tests with the individual browsers:
 
     ./gradlew chromeTest
     ./gradlew firefoxTest
+    ./gradlew souceLabs
+    ./gradlew firefoxGrid
+    ./gradlew chromeGrid
 
 To run with all, you can run:
 
@@ -25,11 +26,10 @@ Replace `./gradlew` with `gradlew.bat` in the above examples if you're on Window
 username:   microtema
 key:        ddd6304a-bc76-4f09-825e-af43063042a0
 
-## Questions and issues
+# Selenium Grid
 
-Please ask questions on [Geb user mailing list][mailing_list] and raise issues in [Geb issue tracker][issue_tracker].
+Selenium grid is handled by dockerCompose plugin for each task that ends with *Grid
 
-
-[build_status]: https://circleci.com/gh/geb/geb-example-gradle/tree/master.svg?style=shield&circle-token=38eb8de9af8f889922b91624a7943c474c0c3617 "Build Status"
-[mailing_list]: https://groups.google.com/forum/#!forum/geb-user
-[issue_tracker]: https://github.com/geb/issues/issues
+> docker-compose up
+> gradle *GridTest
+> docker-compose down
