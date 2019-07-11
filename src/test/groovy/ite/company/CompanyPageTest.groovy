@@ -25,18 +25,15 @@ class CompanyPageTest extends BasePageGebSpec {
      *       where the test is example-based but not unrolled.
      */
     @Unroll
-    def "Map #key to #value"() {
+    def "Addition #x plus #y should be #result"() {
 
-        setup: "Create a map with 3 entries"
-        def map = ["foo": "bar", "one": "1", "two": "2"]
+        expect: "#x + #y should equals #result"
+        x + y == result
 
-        expect: "Match key: #key within map value: #value"
-        map[key] == value
-
-        where: "#key to #value"
-        key   | value
-        "foo" | "bar"
-        "one" | "1"
-        "two" | "2"
+        where: "#x + #y = #result"
+        x | y | result
+        1 | 1 | 2
+        1 | 2 | 3
+        1 | 3 | 4
     }
 }
